@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:location_tracking/config.dart';
 import 'package:location_tracking/location_tracking.dart';
 import 'package:location_tracking/model/login_request_model.dart';
+import 'package:location_tracking/model/login_response_model.dart';
 import 'package:location_tracking/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snippet_coder_utils/FormHelper.dart';
@@ -189,7 +190,11 @@ class _LoginPageState extends State<LoginPage> {
                     });
                     if (response.isAdmin == false) {
                       String token = response.accessToken.toString();
+                      String id = response.id.toString();
+                      LoginResponseModel body = response;
                       setToken(token);
+                      setUserId(id);
+                      print(id);
                       Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -273,6 +278,11 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> setToken(String token) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token', token);
+  }
+
+  Future<void> setUserId(String id) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('id', id);
   }
 
 // Future<bool> checkLogedIn() async {

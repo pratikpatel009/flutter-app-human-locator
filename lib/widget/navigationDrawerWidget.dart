@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:location_tracking/model/login_response_model.dart';
+import 'package:location_tracking/services/api_services.dart';
 
 import '../pages/joinCircle.dart';
 import '../pages/myCircle.dart';
 
 class NavigationDrawerWidget extends StatefulWidget {
-  const NavigationDrawerWidget({Key? key}) : super(key: key);
 
+
+  const NavigationDrawerWidget({Key? key ,}) : super(key: key);
 
   @override
   State<NavigationDrawerWidget> createState() => _NavigationDrawerWidgetState();
@@ -15,27 +18,24 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   final padding = EdgeInsets.symmetric(horizontal: 20);
   @override
   Widget build(BuildContext context) {
-    final name = 'Sarah Abs';
-    final email = 'sarah@abs.com';
+    final name = 'pratik';
+    final email = 'pratik@gmail.com';
     final urlImage =
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
+        'https://images.unsplash.com/photo-1rtrt494790108377-be9c29b29330?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80';
     return Drawer(
       child: Material(
         color: Color.fromRGBO(50, 75, 205, 1),
         child: ListView(
           children: <Widget>[
             buildHeader(
-              urlImage: urlImage,
-              name: name,
-              email: email,
-              onClicked: (){}
-              // onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-              //   builder: (context) => UserPage(
-              //     name: 'Sarah Abs',
-              //     urlImage: urlImage,
-              //   ),
-              // )),
-            ),
+                urlImage: urlImage, name: name, email: email, onClicked: () {}
+                // onClicked: () => Navigator.of(context).push(MaterialPageRoute(
+                //   builder: (context) => UserPage(
+                //     name: 'Sarah Abs',
+                //     urlImage: urlImage,
+                //   ),
+                // )),
+                ),
             Container(
               padding: padding,
               child: Column(
@@ -46,14 +46,28 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   buildMenuItem(
                     text: 'My circle',
                     icon: Icons.people,
-                    onClicked: () => selectedItem(context, 0),
+                    onClicked: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const JoinCircle())),
                   ),
                   const SizedBox(height: 16),
                   buildMenuItem(
-                    text: 'Join circle',
-                    icon: Icons.people,
-                    onClicked: () => selectedItem(context, 1),
-                  ),
+                      text: 'Join Member',
+                      icon: Icons.people,
+                      onClicked: () {
+                        APIService.fetchMember().then((response) {
+                          print(response);
+                          });
+                        setState(() {
+
+                        });
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const MyCircle()));
+                        // },
+                      }),
                   const SizedBox(height: 16),
                   buildMenuItem(
                     text: 'Notifications',

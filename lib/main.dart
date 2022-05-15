@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:location_tracking/config.dart';
 import 'package:location_tracking/location_tracking.dart';
+import 'package:location_tracking/pages/joinCircle.dart';
 import 'package:location_tracking/pages/login_page.dart';
 import 'package:location_tracking/routes.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: SplashRoute,
+      //initialRoute: SplashRoute,
       home: const LoginPage(),
       routes: routes,
     );

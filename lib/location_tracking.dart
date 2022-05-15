@@ -5,11 +5,16 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:location_tracking/google_map_api.dart';
+import 'package:location_tracking/model/login_response_model.dart';
+import 'package:location_tracking/model/update_location_request_model.dart';
 import 'package:location_tracking/widget/navigationDrawerWidget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'services/api_services.dart';
+
 class LocationTracking extends StatefulWidget {
-  const LocationTracking({Key? key}) : super(key: key);
+  const LocationTracking({Key? key,}) : super(key: key);
+
 
   @override
   _LocationTrackingState createState() => _LocationTrackingState();
@@ -18,6 +23,9 @@ class LocationTracking extends StatefulWidget {
 class _LocationTrackingState extends State<LocationTracking> {
   LatLng sourceLocation = LatLng(28.432864, 77.002563);
   LatLng destinationLatlng = LatLng(28.431626, 77.002475);
+  double? la;
+  double? ln;
+  bool isAPIcallProcess = false;
 
   Completer<GoogleMapController> _controller = Completer();
 
@@ -42,6 +50,23 @@ class _LocationTrackingState extends State<LocationTracking> {
 
     subscription = location.onLocationChanged.listen((clocation) {
       currentLocation = clocation;
+
+      //  la =
+       // ln =
+        print(currentLocation?.latitude) ;
+        print(currentLocation?.longitude);
+        UpdateLocationRequestModel model = UpdateLocationRequestModel(
+        lat: currentLocation!.latitude!,
+        lng: currentLocation!.longitude!,
+
+      );
+      APIService.updateLocation(model).then((response) {
+        setState(() {
+
+        });
+
+
+      });
 
       updatePinsOnMap();
     });
@@ -116,6 +141,7 @@ class _LocationTrackingState extends State<LocationTracking> {
           currentLocation!.latitude ?? 0.0, currentLocation!.longitude ?? 0.0),
     );
 
+
     final GoogleMapController controller = await _controller.future;
 
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
@@ -156,7 +182,7 @@ class _LocationTrackingState extends State<LocationTracking> {
       child: Scaffold(
         drawer:  NavigationDrawerWidget(),
         appBar: AppBar(
-          title: const Text("Flutter"),
+          title: const Text("Human Locator"),
           elevation: 0,
           actions: [
             IconButton(
